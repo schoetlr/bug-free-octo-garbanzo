@@ -14,6 +14,10 @@ class BattleBot
     @@count += 1
   end
 
+  def self.count
+    @@count
+  end
+
   def dead?
     health > 0 ? false : true
   end
