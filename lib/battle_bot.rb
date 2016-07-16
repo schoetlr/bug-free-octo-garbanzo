@@ -1,11 +1,17 @@
+require "weapon"
+
 class BattleBot
   attr_reader :name, :health, :enemies, :weapon
+
+  @@count = 0
+
   def initialize(name, health = 100)
     @name = name
     @health = health
     @enemies = []
     @weapon = nil
     @alive = true
+    @@count += 1
   end
 
   def dead?
@@ -13,15 +19,16 @@ class BattleBot
   end
 
   def has_weapon?
-    if weapon 
-      true
-    else
-      false
-    end
+    !!@weapon
+  end
+
+  def weapon=(value)
+    raise NoMethodError
   end
 
   def pick_up(weapon)
     raise ArgumentError if weapon.class != Weapon
+    raise ArgumentError if weapon.bot != nil
     if self.weapon != nil
       return nil
     else
@@ -41,6 +48,7 @@ class BattleBot
     raise ArgumentError if damage.class != Fixnum
     @health -= damage
     @health = @health < 0 ? 0 : @health
+    @@count -= 1 if @health <= 0
     self.health
   end
 
@@ -64,10 +72,16 @@ class BattleBot
 
   end
 
+  def defend_against(enemy)
+    self.attack(enemy) unless dead? || !has_weapon?
+
+  end
+
   def receive_attack_from(enemy)
     if enemy.class != BattleBot || enemy.object_id == self.object_id || enemy.weapon == nil
       raise ArgumentError
     end
+    self.defend_against(enemy)
     self.take_damage(enemy.weapon.damage)
     @enemies.push(enemy) unless @enemies.include?(enemy)
   end

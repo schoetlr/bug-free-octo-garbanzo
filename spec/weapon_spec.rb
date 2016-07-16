@@ -1,6 +1,6 @@
-require_relative 'spec_helper'
-require_relative 'weapon'
-require_relative 'battle_bot'
+require 'spec_helper'
+require 'weapon'
+require 'battle_bot'
 
 describe Weapon do
 

@@ -1,6 +1,6 @@
-require_relative 'spec_helper'
-require_relative 'battle_bot'
-require_relative 'weapon'
+require 'spec_helper'
+require 'battle_bot'
+require 'weapon'
 
 describe BattleBot do
 
